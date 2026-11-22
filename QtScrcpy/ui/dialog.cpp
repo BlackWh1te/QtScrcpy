@@ -1305,6 +1305,7 @@ void Dialog::onDeviceConnected(bool success, const QString &serial, const QStrin
 #endif
 
     if (m_oxideMode) {
+        videoForm->keepOnlyFullScreenShortcut();
         QTimer::singleShot(600, videoForm, [videoForm]() {
             if (!videoForm->isFullScreen()) {
                 videoForm->switchFullScreen();

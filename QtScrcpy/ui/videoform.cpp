@@ -1074,3 +1074,13 @@ bool VideoForm::focusNextPrevChild(bool next)
     // never let Tab/Shift+Tab move focus: they are forwarded to the device as normal keys
     return false;
 }
+
+void VideoForm::keepOnlyFullScreenShortcut()
+{
+    const QKeySequence fullScreen("Ctrl+f");
+    for (QShortcut *shortcut : findChildren<QShortcut *>()) {
+        if (shortcut->key() != fullScreen) {
+            shortcut->setEnabled(false);
+        }
+    }
+}

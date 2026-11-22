@@ -34,6 +34,8 @@ public:
     void removeBlackRect();
     void showFPS(bool show);
     void switchFullScreen();
+    // Oxide fork: keep only Ctrl+F so Ctrl (crouch) + W/S/H/B... never triggers device shortcuts
+    void keepOnlyFullScreenShortcut();
     bool isHost();
 
 private:
