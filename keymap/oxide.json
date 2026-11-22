@@ -49,6 +49,26 @@
             "switchMap": false
         },
         {
+            "comment": "Перезарядка",
+            "type": "KMT_CLICK",
+            "key": "Key_R",
+            "pos": {
+                "x": 0.7275,
+                "y": 0.771
+            },
+            "switchMap": false
+        },
+        {
+            "comment": "Прицел (Mouse 4)",
+            "type": "KMT_CLICK",
+            "key": "BackButton",
+            "pos": {
+                "x": 0.875,
+                "y": 0.563
+            },
+            "switchMap": false
+        },
+        {
             "comment": "Присесть",
             "type": "KMT_CLICK",
             "key": "Key_C",
