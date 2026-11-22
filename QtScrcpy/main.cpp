@@ -1,4 +1,5 @@
-﻿#include <QApplication>
+﻿#include <QCoreApplication>
+#include <QApplication>
 #include <QColor>
 #include <QDebug>
 #include <QDir>
@@ -267,6 +268,18 @@ QtMsgType covertLogLevel(const QString &logLevel)
 
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
+    // Oxide fork: always mirror log lines into qtscrcpy-oxide.log next to the exe
+    {
+        static QFile logFile;
+        if (!logFile.isOpen()) {
+            logFile.setFileName(QCoreApplication::applicationDirPath() + "/qtscrcpy-oxide.log");
+            logFile.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text);
+        }
+        if (logFile.isOpen()) {
+            logFile.write((QDateTime::currentDateTime().toString("hh:mm:ss.zzz ") + msg + QStringLiteral("\n")).toUtf8());
+            logFile.flush();
+        }
+    }
     QString outputMsg;
     
 #ifdef ENABLE_DETAILED_LOGS

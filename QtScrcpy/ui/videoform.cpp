@@ -926,6 +926,46 @@ void VideoForm::wheelEvent(QWheelEvent *event)
     }
 }
 
+// Oxide fork: keymaps are written for physical keys (W, A, S, D, 1..6, ...). On Windows,
+// Qt reports the character of the active layout (Russian layout turns W into Cyrillic Tse),
+// so map letters, digits and OEM keys back to their US-layout key using the virtual-key code.
+static int layoutIndependentKey(const QKeyEvent *event)
+{
+#ifdef Q_OS_WIN
+    const quint32 vk = event->nativeVirtualKey();
+    if ((vk >= 0x41 && vk <= 0x5A) || (vk >= 0x30 && vk <= 0x39)) {
+        return static_cast<int>(vk); // Qt::Key_A..Key_Z and Key_0..Key_9 share these values
+    }
+    switch (vk) {
+    case 0xC0: return Qt::Key_QuoteLeft;
+    case 0xBD: return Qt::Key_Minus;
+    case 0xBB: return Qt::Key_Equal;
+    case 0xDB: return Qt::Key_BracketLeft;
+    case 0xDD: return Qt::Key_BracketRight;
+    case 0xBA: return Qt::Key_Semicolon;
+    case 0xDE: return Qt::Key_Apostrophe;
+    case 0xBC: return Qt::Key_Comma;
+    case 0xBE: return Qt::Key_Period;
+    case 0xBF: return Qt::Key_Slash;
+    case 0xDC: return Qt::Key_Backslash;
+    default: break;
+    }
+#endif
+    return event->key();
+}
+
+static void emitLayoutIndependentKey(qsc::IDevice *device, QKeyEvent *event, const QSize &frameSize, const QSize &showSize)
+{
+    const int key = layoutIndependentKey(event);
+    if (key == event->key()) {
+        emit device->keyEvent(event, frameSize, showSize);
+        return;
+    }
+    QKeyEvent mapped(event->type(), key, event->modifiers(), event->nativeScanCode(), event->nativeVirtualKey(),
+                     event->nativeModifiers(), event->text(), event->isAutoRepeat(), event->count());
+    emit device->keyEvent(&mapped, frameSize, showSize);
+}
+
 void VideoForm::keyPressEvent(QKeyEvent *event)
 {
     auto device = qsc::IDeviceManage::getInstance().getDevice(m_serial);
@@ -936,7 +976,7 @@ void VideoForm::keyPressEvent(QKeyEvent *event)
 
     QWidget *vw = videoWidget();
     QSize widgetSize = vw ? vw->size() : m_frameSize;
-    emit device->keyEvent(event, m_frameSize, widgetSize);
+    emitLayoutIndependentKey(device, event, m_frameSize, widgetSize);
 }
 
 void VideoForm::keyReleaseEvent(QKeyEvent *event)
@@ -947,7 +987,7 @@ void VideoForm::keyReleaseEvent(QKeyEvent *event)
     }
     QWidget *vw = videoWidget();
     QSize widgetSize = vw ? vw->size() : m_frameSize;
-    emit device->keyEvent(event, m_frameSize, widgetSize);
+    emitLayoutIndependentKey(device, event, m_frameSize, widgetSize);
 }
 
 void VideoForm::paintEvent(QPaintEvent *paint)
