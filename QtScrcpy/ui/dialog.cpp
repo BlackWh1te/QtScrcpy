@@ -27,6 +27,8 @@
 #include <QTabWidget>
 #include <QTime>
 #include <QTimer>
+#include <QCoreApplication>
+#include <memory>
 #include <QVBoxLayout>
 #include <QUrl>
 
@@ -127,6 +129,10 @@ Dialog::Dialog(QWidget *parent) : QWidget(parent), ui(new Ui::Widget)
     connect(&m_autoUpdatetimer, &QTimer::timeout, this, &Dialog::on_updateDevice_clicked);
     if (ui->autoUpdatecheckBox->isChecked()) {
         m_autoUpdatetimer.start(5000);
+    }
+
+    if (QCoreApplication::arguments().contains("--oxide")) {
+        QTimer::singleShot(800, this, &Dialog::startOxideMode);
     }
 
     connect(&m_adb, &qsc::AdbProcess::adbProcessResult, this, [this](qsc::AdbProcess::ADB_EXEC_RESULT processResult) {
@@ -1298,6 +1304,17 @@ void Dialog::onDeviceConnected(bool success, const QString &serial, const QStrin
     QTimer::singleShot(200, videoForm, [videoForm](){videoForm->show();});
 #endif
 
+    if (m_oxideMode) {
+        QTimer::singleShot(600, videoForm, [videoForm]() {
+            if (!videoForm->isFullScreen()) {
+                videoForm->switchFullScreen();
+            }
+            videoForm->activateWindow();
+            videoForm->raise();
+        });
+        showMinimized();
+    }
+
     GroupController::instance().addDevice(serial);
 }
 
@@ -1780,4 +1797,50 @@ void Dialog::syncPresetLevelToUi()
     if (maxSizeIdx >= 0) {
         ui->maxSizeBox->setCurrentIndex(maxSizeIdx);
     }
+}
+
+void Dialog::startOxideMode()
+{
+    m_oxideMode = true;
+    outLog("Oxide mode: 1920px, 16 Mbps, oxide keymap, fullscreen", false);
+
+    on_refreshGameScriptBtn_clicked();
+    for (int i = 0; i < ui->gameBox->count(); ++i) {
+        if (ui->gameBox->itemText(i).contains("oxide", Qt::CaseInsensitive)) {
+            ui->gameBox->setCurrentIndex(i);
+            break;
+        }
+    }
+    ui->bitRateEdit->setText("16");
+    ui->bitRateBox->setCurrentText("Mbps");
+    const int size1920 = ui->maxSizeBox->findText("1920");
+    if (size1920 >= 0) {
+        ui->maxSizeBox->setCurrentIndex(size1920);
+    }
+    ui->stayAwakeCheck->setChecked(true);
+
+    // adb lists devices asynchronously: wait until the phone shows up, then connect once
+    on_updateDevice_clicked();
+    auto *waitTimer = new QTimer(this);
+    auto tries = std::make_shared<int>(0);
+    connect(waitTimer, &QTimer::timeout, this, [this, waitTimer, tries]() {
+        const int usb = findDeviceFromeSerialBox(false);
+        if (usb >= 0) {
+            waitTimer->stop();
+            waitTimer->deleteLater();
+            ui->serialBox->setCurrentIndex(usb);
+            on_startServerBtn_clicked();
+            return;
+        }
+        if (++(*tries) >= 60) {
+            waitTimer->stop();
+            waitTimer->deleteLater();
+            outLog("Oxide mode: phone not found over USB", true);
+            return;
+        }
+        if (*tries % 3 == 0) {
+            on_updateDevice_clicked();
+        }
+    });
+    waitTimer->start(1000);
 }

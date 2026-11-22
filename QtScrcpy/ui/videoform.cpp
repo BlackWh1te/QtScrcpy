@@ -932,9 +932,7 @@ void VideoForm::keyPressEvent(QKeyEvent *event)
     if (!device) {
         return;
     }
-    if (Qt::Key_Escape == event->key() && !event->isAutoRepeat() && isFullScreen()) {
-        switchFullScreen();
-    }
+    // Oxide fork: Esc belongs to the game (menu). Leave fullscreen with Ctrl+F instead.
 
     QWidget *vw = videoWidget();
     QSize widgetSize = vw ? vw->size() : m_frameSize;
@@ -1068,4 +1066,11 @@ void VideoForm::dropEvent(QDropEvent *event)
         }
         emit device->pushFileRequest(file, Config::getInstance().getPushFilePath() + fileInfo.fileName());
     }
+}
+
+bool VideoForm::focusNextPrevChild(bool next)
+{
+    Q_UNUSED(next)
+    // never let Tab/Shift+Tab move focus: they are forwarded to the device as normal keys
+    return false;
 }

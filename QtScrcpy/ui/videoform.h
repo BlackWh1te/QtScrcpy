@@ -67,6 +67,8 @@ protected:
     void wheelEvent(QWheelEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
+    // Oxide fork: Tab must reach the game keymap instead of moving widget focus
+    bool focusNextPrevChild(bool next) override;
 
     void paintEvent(QPaintEvent *) override;
     void showEvent(QShowEvent *event) override;

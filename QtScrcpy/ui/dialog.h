@@ -90,6 +90,9 @@ private:
     void updateBootConfig(bool toView = true);
     void execAdbCmd();
     void delayMs(int ms);
+    // Oxide fork: one-shot setup for Oxide: Survival Island (launch with --oxide)
+    void startOxideMode();
+    bool m_oxideMode = false;
     QString getGameScript(const QString &fileName);
     void slotActivated(QSystemTrayIcon::ActivationReason reason);
     int findDeviceFromeSerialBox(bool wifi);

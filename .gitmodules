@@ -1,3 +1,4 @@
 [submodule "QtScrcpy/QtScrcpyCore"]
 	path = QtScrcpy/QtScrcpyCore
-	url = git@github.com:barry-ran/QtScrcpyCore.git
+	url = https://github.com/BlackWh1te/QtScrcpyCore.git
+	branch = oxide
