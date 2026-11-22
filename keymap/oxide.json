@@ -1,0 +1,212 @@
+{
+    "switchKey": "RightButton",
+    "sprintKey": "Key_Shift",
+    "sprintUpScale": 2,
+    "mouseMoveMap": {
+        "startPos": {
+            "x": 0.7,
+            "y": 0.4
+        },
+        "speedRatioX": 3,
+        "speedRatioY": 3,
+        "speedRatio": 3
+    },
+    "keyMapNodes": [
+        {
+            "comment": "Ходьба WASD (джойстик слева)",
+            "type": "KMT_STEER_WHEEL",
+            "centerPos": {
+                "x": 0.2025,
+                "y": 0.758
+            },
+            "leftOffset": 0.09,
+            "rightOffset": 0.09,
+            "upOffset": 0.2,
+            "downOffset": 0.2,
+            "leftKey": "Key_A",
+            "rightKey": "Key_D",
+            "upKey": "Key_W",
+            "downKey": "Key_S"
+        },
+        {
+            "comment": "Прыжок",
+            "type": "KMT_CLICK",
+            "key": "Key_Space",
+            "pos": {
+                "x": 0.904,
+                "y": 0.778
+            },
+            "switchMap": false
+        },
+        {
+            "comment": "Удар / стрельба",
+            "type": "KMT_CLICK",
+            "key": "LeftButton",
+            "pos": {
+                "x": 0.8075,
+                "y": 0.758
+            },
+            "switchMap": false
+        },
+        {
+            "comment": "Присесть",
+            "type": "KMT_CLICK",
+            "key": "Key_C",
+            "pos": {
+                "x": 0.8325,
+                "y": 0.937
+            },
+            "switchMap": false
+        },
+        {
+            "comment": "Присесть (Ctrl)",
+            "type": "KMT_CLICK",
+            "key": "Key_Control",
+            "pos": {
+                "x": 0.8325,
+                "y": 0.937
+            },
+            "switchMap": false
+        },
+        {
+            "comment": "Действие (кнопка посередине слева)",
+            "type": "KMT_CLICK",
+            "key": "Key_E",
+            "pos": {
+                "x": 0.2775,
+                "y": 0.547
+            },
+            "switchMap": false
+        },
+        {
+            "comment": "Голосовой чат",
+            "type": "KMT_CLICK",
+            "key": "Key_V",
+            "pos": {
+                "x": 0.7135,
+                "y": 0.908
+            },
+            "switchMap": false
+        },
+        {
+            "comment": "Рюкзак",
+            "type": "KMT_CLICK",
+            "key": "Key_Tab",
+            "pos": {
+                "x": 0.0725,
+                "y": 0.607
+            },
+            "switchMap": true
+        },
+        {
+            "comment": "Рюкзак",
+            "type": "KMT_CLICK",
+            "key": "Key_I",
+            "pos": {
+                "x": 0.0725,
+                "y": 0.607
+            },
+            "switchMap": true
+        },
+        {
+            "comment": "Создание",
+            "type": "KMT_CLICK",
+            "key": "Key_Q",
+            "pos": {
+                "x": 0.0725,
+                "y": 0.742
+            },
+            "switchMap": true
+        },
+        {
+            "comment": "Стройка",
+            "type": "KMT_CLICK",
+            "key": "Key_B",
+            "pos": {
+                "x": 0.0725,
+                "y": 0.867
+            },
+            "switchMap": true
+        },
+        {
+            "comment": "Меню",
+            "type": "KMT_CLICK",
+            "key": "Key_Escape",
+            "pos": {
+                "x": 0.961,
+                "y": 0.054
+            },
+            "switchMap": true
+        },
+        {
+            "comment": "Меню",
+            "type": "KMT_CLICK",
+            "key": "Key_M",
+            "pos": {
+                "x": 0.961,
+                "y": 0.054
+            },
+            "switchMap": true
+        },
+        {
+            "comment": "Слот 1",
+            "type": "KMT_CLICK",
+            "key": "Key_1",
+            "pos": {
+                "x": 0.35,
+                "y": 0.9025
+            },
+            "switchMap": false
+        },
+        {
+            "comment": "Слот 2",
+            "type": "KMT_CLICK",
+            "key": "Key_2",
+            "pos": {
+                "x": 0.41,
+                "y": 0.9025
+            },
+            "switchMap": false
+        },
+        {
+            "comment": "Слот 3",
+            "type": "KMT_CLICK",
+            "key": "Key_3",
+            "pos": {
+                "x": 0.47,
+                "y": 0.9025
+            },
+            "switchMap": false
+        },
+        {
+            "comment": "Слот 4",
+            "type": "KMT_CLICK",
+            "key": "Key_4",
+            "pos": {
+                "x": 0.53,
+                "y": 0.9025
+            },
+            "switchMap": false
+        },
+        {
+            "comment": "Слот 5",
+            "type": "KMT_CLICK",
+            "key": "Key_5",
+            "pos": {
+                "x": 0.59,
+                "y": 0.9025
+            },
+            "switchMap": false
+        },
+        {
+            "comment": "Слот 6",
+            "type": "KMT_CLICK",
+            "key": "Key_6",
+            "pos": {
+                "x": 0.65,
+                "y": 0.9025
+            },
+            "switchMap": false
+        }
+    ]
+}
